@@ -16,12 +16,12 @@ fi
 echo "-----> Snyk Install"
 export PATH=$PATH:$3/0/bin/
 export SNYK_TOKEN
-export FAIL_ON_BUILD
+export FAIL_ON_VULN
 $3/0/bin/npm install -q snyk > /dev/null
 echo "-----> Snyk Test"
 ./node_modules/.bin/snyk test $1
 RC=$?
-if [ "$RC" != "0" ] && [ "$FAIL_ON_BUILD" == true ]; then
+if [ "$RC" != "0" ] && [ "$FAIL_ON_VULN" == true ]; then
   echo "-----> Snyk found vulnerabilties breaking build.."
   exit 1
 fi
