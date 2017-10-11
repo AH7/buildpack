@@ -1,0 +1,8 @@
+#!/usr/bin/env bash
+# bin/detect <build-dir>
+
+BP=$(dirname "$(dirname $0)")
+ls -la $1
+ls -la $BP
+echo "node.js "$(cat "$BP/VERSION")""
+exit 0

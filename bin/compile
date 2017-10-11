@@ -1,0 +1,3 @@
+#!/bin/bash
+echo "-----> Snyk compile"
+exit 0

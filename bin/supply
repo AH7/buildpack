@@ -1,0 +1,28 @@
+#!/usr/bin/env bash
+indent() {
+  sed "s/^/       /"
+}
+
+export FAIL_ON_TOKEN
+if [ "$FAIL_ON_TOKEN" == true ]; then
+    grep -q -r -E "[A-Za-z0-9]{8}-[A-Za-z0-9]{4}-[A-Za-z0-9]{4}-[A-Za-z0-9]{4}-[A-Za-z0-9]{12}" *
+    RC=$?
+    if [ "$RC" != "0" ]; then 
+	echo "Found token breaking build..."
+	exit 1
+    fi
+fi
+
+echo "-----> Snyk Install"
+export PATH=$PATH:$3/0/bin/
+export SNYK_TOKEN
+export FAIL_ON_BUILD
+$3/0/bin/npm install -q snyk > /dev/null
+echo "-----> Snyk Test"
+./node_modules/.bin/snyk test $1
+RC=$?
+if [ "$RC" != "0" ] && [ "$FAIL_ON_BUILD" == true ]; then
+  echo "-----> Snyk found vulnerabilties breaking build.."
+  exit 1
+fi
+exit 0
