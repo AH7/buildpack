@@ -14,6 +14,8 @@ if [ "$FAIL_ON_TOKEN" == true ]; then
 fi
 
 echo "-----> Snyk Install"
+env
+echo "-----> After Env"
 export PATH=$PATH:$3/0/bin/
 export SNYK_TOKEN
 export FAIL_ON_VULN
